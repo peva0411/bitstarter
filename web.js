@@ -1,6 +1,6 @@
 var express = require('express');
 var fs = require('fs');
-var path = reuquire('path');
+var path = require('path');
 
  
 var app = express.createServer(express.logger());
