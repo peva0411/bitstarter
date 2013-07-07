@@ -9,6 +9,8 @@ and basic DOM parsing.
 var fs  = require('fs');
 var program = require('commander');
 var cheerio = require('cheerio');
+var rest = require('restler');
+
 var HTMLFILE_DEFAULT = "index.html";
 var CHECKSFILE_DEFAULT = "checks.json";
 
@@ -44,12 +46,20 @@ var clone = function(fn){
     return fn.bind({});
 };
 
+
 if(require.main == module){
     console.log("Started from bash")
     program.option('-c, --checks <check_file>','Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
-    .option('f, --file <html_file>', 'Path to index.html', clone(assertFileExists),HTMLFILE_DEFAULT) 
-	.parse(process.argv);
-    var checkJson = checkHtmlFile(program.file, program.checks);
+    .option('f, --file <html_file>', 'Path to index.html', clone(assertFileExists),HTMLFILE_DEFAULT)
+    .option('url, --url', 'Url to page') 
+    .parse(process.argv);
+    if (program.url){
+	rest.get(program.url).on('complete', function(result){
+	                                      var file = result});      
+    }else{
+	file = program.file
+    }
+    var checkJson = checkHtmlFile(file, program.checks);
     var outJson = JSON.stringify(checkJson, null, 4);
     console.log(outJson);
 }else{
