@@ -6,7 +6,7 @@ var path = require('path');
 var app = express.createServer(express.logger());
 
 app.get('/', function(request, response) {
-    var filePath =  path.join(__dirname, '../index.html');
+    var filePath =  path.join(__dirname, 'index.html');
     var file = fs.readFileSync(filePath);
    
     response.send(file.toString());
